@@ -1,8 +1,9 @@
-%{"decimal": {:package, "0.2.1"},
-  "ecto": {:package, "0.2.0"},
+%{"cesso": {:package, "0.1.1"},
+  "decimal": {:git, "git://github.com/ericmj/decimal.git", "b4fd0f063ea7be43de5a942e79441b07f3e89484", []},
+  "ecto": {:git, "git://github.com/elixir-lang/ecto.git", "c920664fbf68e59cb68dbffa48c6655049549586", []},
   "excoveralls": {:git, "git://github.com/parroty/excoveralls.git", "38625ea6d32d633b184284b5eb5c79e7bfc28258", []},
   "exprintf": {:package, "0.1.2"},
   "jsex": {:package, "2.0.0"},
   "jsx": {:package, "2.0.4"},
   "poolboy": {:package, "1.2.1"},
-  "postgrex": {:package, "0.5.1"}}
+  "postgrex": {:git, "git://github.com/ericmj/postgrex.git", "88cca6756815bb107306abf8507ffb00dedfd466", []}}

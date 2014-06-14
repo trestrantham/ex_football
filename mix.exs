@@ -36,8 +36,9 @@ defmodule Football.Mixfile do
   defp deps do
     [
       { :excoveralls, github: "parroty/excoveralls" },
-      { :postgrex, ">= 0.0.0" },
-      { :ecto, "~> 0.2.0" }
+      { :postgrex, github: "ericmj/postgrex" },
+      { :ecto, github: "elixir-lang/ecto" },
+      { :cesso, ">= 0.0.0" }
     ]
   end
 end

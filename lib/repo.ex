@@ -4,4 +4,8 @@ defmodule Repo do
   def conf do
     parse_url "ecto://postgres:postgres@localhost/football"
   end
+
+  def priv do
+    app_dir(:football, "priv/repo")
+  end
 end

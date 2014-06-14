@@ -7,6 +7,8 @@ defmodule Team do
     field :abbreviation
     field :conference
     field :division
+    field :created_at, :datetime
+    field :updated_at, :datetime
   end
 
   validate team,
