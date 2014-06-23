@@ -5,7 +5,7 @@ defmodule Football.Mixfile do
     [
       app: :football,
       version: "0.0.1",
-      elixir: "~> 0.14.0",
+      elixir: "~> 0.14.1",
       deps: deps,
       test_coverage: [tool: ExCoveralls]
     ]
@@ -36,9 +36,9 @@ defmodule Football.Mixfile do
   defp deps do
     [
       { :excoveralls, github: "parroty/excoveralls" },
-      { :postgrex, github: "ericmj/postgrex" },
+      { :postgrex, "~> 0.5.1" },
       { :ecto, github: "elixir-lang/ecto" },
-      { :cesso, ">= 0.0.0" }
+      { :cesso, github: "meh/cesso" }
     ]
   end
 end
