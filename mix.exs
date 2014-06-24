@@ -7,7 +7,8 @@ defmodule Football.Mixfile do
       version: "0.0.1",
       elixir: "~> 0.14.1",
       deps: deps,
-      test_coverage: [tool: ExCoveralls]
+      test_coverage: [tool: ExCoveralls],
+      build_per_environment: true
     ]
   end
 
