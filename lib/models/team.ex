@@ -22,34 +22,34 @@ defmodule Team do
     division:     present()
 
   # name,city,abbreviation,conference,division
-  def import(source_file) do
-    csv = CSV.decode(File.stream!(source_file), columns: true, strip: true)
-    csv |> Enum.each(fn(row) ->
-      team = %Team{
-        name: row["name"],
-        city: row["city"],
-        abbreviation: row["abbreviation"],
-        conference: row["conference"],
-        division: row["division"]
-      }
+  def import(source_file, repo) do
+    source_file
+    |> File.stream!
+    |> CSV.decode(columns: true, strip: true)
+    |> Enum.each(fn row -> import_csv_row(row, repo) end)
+  end
 
-      validation = Team.validate(team)
+  def by_name_and_city(name, city) do
+    from t in Team,
+    where: t.name == ^name
+      and t.city == ^city,
+    select: t.id
+  end
 
-      query = from t in Team,
-              where: t.name == ^team.name
-                and t.city == ^team.city,
-              select: t.id
-      db_team = Repo.all(query) |> Enum.count
+  defp import_csv_row(row, repo) do
+    team = %Team{ name: row["name"],
+                  city: row["city"],
+                  abbreviation: row["abbreviation"],
+                  conference: row["conference"],
+                  division: row["division"] }
 
-      cond do
-        validation != [] ->
-          raise "Invalid Team"
-        db_team > 0 ->
-          IO.puts "Duplicate Team #{team.city} #{team.name}; Skipping"
-        true ->
-          IO.puts "Inserting Team #{team.city} #{team.name}"
-          Repo.insert(team)
-      end
-    end)
+    cond do
+      Team.validate(team) != [] -> raise "Invalid Team"
+      repo.all(by_name_and_city(team.name, team.city)) |> Enum.count > 0 ->
+        IO.puts "Duplicate Team #{team.city} #{team.name}; Skipping"
+      true ->
+        IO.puts "Inserting Team #{team.city} #{team.name}"
+        repo.insert(team)
+    end
   end
 end
