@@ -4,10 +4,13 @@ otp_release:
 before_install:
   - mkdir -p vendor/elixir
   - wget -q https://github.com/elixir-lang/elixir/releases/download/v0.14.1/Precompiled.zip && unzip -qq Precompiled.zip -d vendor/elixir
+before_script:
   - export PATH="$PATH:$PWD/vendor/elixir/bin"
   - mix local.hex --force
+  - MIX_ENV=test mix do deps.get
+  - psql -c 'CREATE DATABASE ex_football_test;' -U postgres
+  - MIX_ENV=test mix do compile
+  - MIX_ENV=test mix do ecto.migrate Repo
 script:
-  - MIX_ENV=test mix do deps.get, test
-  - mix compile
+  - mix test
   - mix coveralls.travis
-
