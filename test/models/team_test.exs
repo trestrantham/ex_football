@@ -25,12 +25,32 @@ defmodule TeamTest do
     assert Team.validate(team) == []
   end
 
-  test "import of teams csv" do
+  test "successful import of teams csv" do
     original_count = Repo.all(Team) |> Enum.count
 
-    "test/fixtures/team_test.csv" |> Team.import
+    "test/fixtures/team_test_success.csv" |> Team.import
 
     test_count = Repo.all(Team) |> Enum.count
     assert (test_count - original_count) == 2
+  end
+
+  test "duplicate import of teams csv" do
+    original_count = Repo.all(Team) |> Enum.count
+
+    "test/fixtures/team_test_success.csv" |> Team.import
+
+    test_count = Repo.all(Team) |> Enum.count
+    assert (test_count - original_count) == 2
+
+    "test/fixtures/team_test_success.csv" |> Team.import
+
+    duplicate_count = Repo.all(Team) |> Enum.count
+    assert test_count == duplicate_count
+  end
+
+  test "import of teams csv failure" do
+    assert_raise RuntimeError, fn ->
+      "test/fixtures/team_test_fail.csv" |> Team.import
+    end
   end
 end
